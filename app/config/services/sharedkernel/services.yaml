@@ -1,3 +1,7 @@
+parameters:
+  aws.region.west: 'eu-west-1'
+  aws.dynamodb.endpoint: '%env(AWS_DYNAMODB_ENDPOINT)%'
+
 services:
   _defaults:
     autowire: true
@@ -7,6 +11,27 @@ services:
   aws.credentials:
     class: Aws\Credentials\Credentials
     arguments:
-      - 'env(resolve:AWS_ACCESS_ID)'
-      - 'env(resolve:AWS_SECRET_KEY)'
-      - 'env(resolve:AWS_SESSION_TOKEN)'
+      - '%env(AWS_ACCESS_ID)%'
+      - '%env(AWS_SECRET_KEY)%'
+
+  SharedKernel\Domain\Aws\DynamoDb\Factory\ClientFactory: ~
+
+  aws.dynamodb.marshaler:
+    class: Aws\DynamoDb\Marshaler
+
+  aws.dynamodb.client.west:
+    class: Aws\DynamoDb\DynamoDbClient
+    factory: [ '@SharedKernel\Domain\Aws\DynamoDb\Factory\ClientFactory', 'build' ]
+    arguments:
+      - '@aws.credentials'
+      - '%aws.region.west%'
+      - '%aws.dynamodb.endpoint%'
+
+  aws.dynamodb.training-completed:
+    class: SharedKernel\Domain\Aws\DynamoDb\DynamoDb
+    arguments:
+      - '@aws.dynamodb.client.west'
+      - '@aws.dynamodb.marshaler'
+      - 'training-completed'
+
+  SharedKernel\Application\Aws\DynamoDb\KeyValueDatabaseClient $trainingCompletedDb: '@aws.dynamodb.training-completed'

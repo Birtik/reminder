@@ -1,2 +1,3 @@
+# config/services.yaml
 imports:
-    - { resource: 'services/*/services.yaml' }
+    - { resource: 'services/' }
