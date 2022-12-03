@@ -1,0 +1,7 @@
+controllers:
+    resource: ../src/*/Framework/Controller/*
+    type: annotation
+
+kernel:
+    resource: ../src/SharedKernel/Framework/Kernel.php
+    type: annotation

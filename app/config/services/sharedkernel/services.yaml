@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  aws.credentials:
+    class: Aws\Credentials\Credentials
+    arguments:
+      - 'env(resolve:AWS_ACCESS_ID)'
+      - 'env(resolve:AWS_SECRET_KEY)'
+      - 'env(resolve:AWS_SESSION_TOKEN)'

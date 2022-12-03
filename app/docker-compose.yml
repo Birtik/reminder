@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  nginx:
+    container_name: nginx
+    build: docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app:cached
+    environment:
+      CONTAINER_APP_NAME: app
+
+  app:
+    build: docker/php
+    environment:
+      PHP_IDE_CONFIG: "serverName=app"
+    volumes:
+      - .:/app:cached
+      - ./docker/php/overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+
+  db:
+    image: postgres:11.2
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    ports:
+      - "5432:5432"
+
+  pma:
+    image: bitnami/phppgadmin:7.13.0
+    environment:
+      DATABASE_HOST: db
+    ports:
+      - "8080"
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "8025"
+      - "1025:1025"
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-14}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
+
+volumes:
+###> doctrine/doctrine-bundle ###
+  db-data:
+###< doctrine/doctrine-bundle ###

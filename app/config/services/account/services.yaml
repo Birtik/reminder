@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Account\Framework\Controller\:
+    resource: '../../../src/Account/Framework/Controller/'
+    tags: [ 'controller.service_arguments' ]
