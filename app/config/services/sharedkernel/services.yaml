@@ -1,6 +1,7 @@
 parameters:
   aws.region.west: 'eu-west-1'
   aws.dynamodb.endpoint: '%env(AWS_DYNAMODB_ENDPOINT)%'
+  aws.sqs.endpoint: '%env(AWS_SQS_ENDPOINT)%'
 
 services:
   _defaults:
@@ -27,11 +28,44 @@ services:
       - '%aws.region.west%'
       - '%aws.dynamodb.endpoint%'
 
-  aws.dynamodb.training-completed:
+  aws.dynamodb.day-completed:
     class: SharedKernel\Domain\Aws\DynamoDb\DynamoDb
     arguments:
       - '@aws.dynamodb.client.west'
       - '@aws.dynamodb.marshaler'
-      - 'training-completed'
+      - 'day-completed'
 
-  SharedKernel\Application\Aws\DynamoDb\KeyValueDatabaseClient $trainingCompletedDb: '@aws.dynamodb.training-completed'
+  SharedKernel\Application\Aws\DynamoDb\KeyValueDatabaseClient $dayCompletedDb: '@aws.dynamodb.day-completed'
+
+  aws.sqs.client:
+    class: Aws\Sqs\SqsClient
+    factory: [ 'SharedKernel\Infrastructure\Aws\Sqs\SqsFactory', 'build' ]
+    arguments:
+      - '@aws.credentials'
+      - '%aws.region.west%'
+      - '%aws.sqs.endpoint%'
+
+  SharedKernel\Application\Aws\Queue\Process\Consumer\UpdateDayCompletion:
+    tags:
+      - { name: 'process.consumer' }
+
+  SharedKernel\Application\Aws\Queue\Process\Transport: '@SharedKernel\Infrastructure\Aws\Sqs\Sqs'
+
+  SharedKernel\Infrastructure\Aws\Sqs\Sqs:
+    arguments:
+      - '@aws.sqs.client'
+
+  SharedKernel\Infrastructure\Symfony\Command\QueueConsumeCommand:
+    tags:
+      - { name: 'console.command', command: 'queue:consume'}
+
+  SharedKernel\Infrastructure\Symfony\Command\FinishDayCommand:
+    tags:
+      - { name: 'console.command', command: 'app:finish:day' }
+
+  SharedKernel\Application\Aws\Queue\Process\ConsumerResolver:
+    arguments:
+      - !tagged_iterator 'process.consumer'
+
+  SharedKernel\Application\Aws\Queue\Process\Process: ~
+  SharedKernel\Application\Aws\Queue\Process\Dispatcher: ~

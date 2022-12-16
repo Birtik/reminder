@@ -4,6 +4,6 @@ services:
     autoconfigure: true
     public: false
 
-  Account\Framework\Controller\:
-    resource: '../../../src/Account/Framework/Controller/'
+  Progress\Framework\Controller\:
+    resource: '../../../src/Progress/Framework/Controller/'
     tags: [ 'controller.service_arguments' ]
