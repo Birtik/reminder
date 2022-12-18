@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace Progress\Framework\Controller;
 
+use GuzzleHttp\Psr7\Stream;
 use Progress\Application\Service\FilesStorage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FileController extends AbstractController
 {
-    #[Route('/files', name: 'GET_S3_FILES', methods: ['GET'])]
+    #[Route('/files', name: 'GET_S3_FILE', methods: ['GET'])]
     public function getS3Files(FilesStorage $filesStorage): Response
     {
-        $filesStorage->get('test.txt');
+        /** @var Stream $fileBody */
+        $fileBody = ($filesStorage->get('testX2.txt'))['Body'];
 
-        return new Response();
-    }
-
-    #[Route('/files/upload', name: 'UPLOAD_S3_FILES', methods: ['GET'])]
-    public function uploadS3Files(FilesStorage $filesStorage): Response
-    {
-        $filesStorage->upload('file.txt');
-
-        return new Response();
+        return new JsonResponse(['fileContent' => $fileBody->getContents()]);
     }
 }

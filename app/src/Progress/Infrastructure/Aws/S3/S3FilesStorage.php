@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Progress\Infrastructure\Aws\S3;
 
-use Aws\ResultInterface;
 use Aws\S3\S3Client;
 use Progress\Application\Service\FilesStorage;
 
@@ -16,7 +15,6 @@ final class S3FilesStorage implements FilesStorage
 
     public function get(string $key): array
     {
-        /** @var ResultInterface $result */
         $result = $this->client->getObject(
             [
                 'Bucket' => $this->bucketName,
@@ -24,19 +22,6 @@ final class S3FilesStorage implements FilesStorage
             ]
         );
 
-        return [];
-    }
-
-    public function upload(string $key): string
-    {
-        /** @var ResultInterface $result */
-        $result = $this->client->putObject(
-            [
-                'Bucket' => $this->bucketName,
-                'Key' => $key,
-            ]
-        );
-
-        return $result->get('ObjectURL');
+        return $result->toArray();
     }
 }
