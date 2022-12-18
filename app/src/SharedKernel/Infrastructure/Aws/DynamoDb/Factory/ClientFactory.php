@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SharedKernel\Domain\Aws\DynamoDb\Factory;
+namespace SharedKernel\Infrastructure\Aws\DynamoDb\Factory;
 
 use Aws\Credentials\Credentials;
 use Aws\DynamoDb\DynamoDbClient;

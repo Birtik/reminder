@@ -2,6 +2,7 @@ parameters:
   aws.region.west: 'eu-west-1'
   aws.dynamodb.endpoint: '%env(AWS_DYNAMODB_ENDPOINT)%'
   aws.sqs.endpoint: '%env(AWS_SQS_ENDPOINT)%'
+  bucket.name: '%env(AWS_S3_BUCKET_NAME)%'
 
 services:
   _defaults:
@@ -15,21 +16,21 @@ services:
       - '%env(AWS_ACCESS_ID)%'
       - '%env(AWS_SECRET_KEY)%'
 
-  SharedKernel\Domain\Aws\DynamoDb\Factory\ClientFactory: ~
+  SharedKernel\Infrastructure\Aws\DynamoDb\Factory\ClientFactory: ~
 
   aws.dynamodb.marshaler:
     class: Aws\DynamoDb\Marshaler
 
   aws.dynamodb.client.west:
     class: Aws\DynamoDb\DynamoDbClient
-    factory: [ '@SharedKernel\Domain\Aws\DynamoDb\Factory\ClientFactory', 'build' ]
+    factory: [ '@SharedKernel\Infrastructure\Aws\DynamoDb\Factory\ClientFactory', 'build' ]
     arguments:
       - '@aws.credentials'
       - '%aws.region.west%'
       - '%aws.dynamodb.endpoint%'
 
   aws.dynamodb.day-completed:
-    class: SharedKernel\Domain\Aws\DynamoDb\DynamoDb
+    class: SharedKernel\Infrastructure\Aws\DynamoDb\DynamoDb
     arguments:
       - '@aws.dynamodb.client.west'
       - '@aws.dynamodb.marshaler'
@@ -39,11 +40,25 @@ services:
 
   aws.sqs.client:
     class: Aws\Sqs\SqsClient
-    factory: [ 'SharedKernel\Infrastructure\Aws\Sqs\SqsFactory', 'build' ]
+    factory: [ 'SharedKernel\Infrastructure\Aws\Sqs\ClientFactory', 'build' ]
     arguments:
       - '@aws.credentials'
       - '%aws.region.west%'
       - '%aws.sqs.endpoint%'
+
+  aws.s3.eu-west:
+    class: Aws\S3\S3Client
+    factory: [ 'SharedKernel\Infrastructure\Aws\S3\Factory\ClientFactory', 'build' ]
+    arguments:
+      - '@aws.credentials'
+      - '%aws.region.west%'
+
+  Progress\Application\Service\FilesStorage: '@Progress\Infrastructure\Aws\S3\S3FilesStorage'
+
+  Progress\Infrastructure\Aws\S3\S3FilesStorage:
+    arguments:
+      $client: '@aws.s3.eu-west'
+      $bucketName: '%bucket.name%'
 
   SharedKernel\Application\Aws\Queue\Process\Consumer\UpdateDayCompletion:
     tags:

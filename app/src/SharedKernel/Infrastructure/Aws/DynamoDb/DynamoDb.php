@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SharedKernel\Domain\Aws\DynamoDb;
+namespace SharedKernel\Infrastructure\Aws\DynamoDb;
 
-use SharedKernel\Application\Aws\DynamoDb\KeyValueDatabaseClient;
 use Aws\DynamoDb\DynamoDbClient;
 use Aws\DynamoDb\Marshaler;
-use SharedKernel\Domain\Aws\DynamoDb\Exception\DatabaseException;
 use JsonException;
+use SharedKernel\Application\Aws\DynamoDb\KeyValueDatabaseClient;
+use SharedKernel\Infrastructure\Aws\DynamoDb\Exception\DatabaseException;
 
 class DynamoDb implements KeyValueDatabaseClient
 {
