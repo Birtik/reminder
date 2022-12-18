@@ -3,7 +3,16 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+    bind:
+      $progressCommandBus: '@progress.command.bus'
 
   Progress\Framework\Controller\:
     resource: '../../../src/Progress/Framework/Controller/'
     tags: [ 'controller.service_arguments' ]
+
+  Progress\Domain\Repository\DayRepository: '@Progress\Infrastructure\Doctrine\Repository\DoctrineDayRepository'
+
+  Progress\Infrastructure\Doctrine\Repository\DoctrineDayRepository:
+    arguments: ['@doctrine.orm.progress_entity_manager']
+
+  Progress\Application\Handler\UpdateStatusActivityHandler: ~

@@ -5,16 +5,36 @@ doctrine:
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '14'
+#    orm:
+#        auto_generate_proxy_classes: true
+#        entity_managers:
+#            default:
+#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#            auto_mapping: true
+#            progress:
+#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#                mappings:
+#                    Progress:
+#                        is_bundle: false
+#                        type: attribute
+#                        dir: '%kernel.project_dir%/src/Progress/Domain/'
+#                        prefix: Progress\Domain\
+#                        alias: Progress\Domain
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+        entity_managers:
+#            default:
+#                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+            progress:
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                auto_mapping: true
+                mappings:
+                    Progress:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Progress/Domain/'
+                        prefix: Progress\Domain\
+                        alias: Progress\Domain
 
 when@test:
     doctrine:

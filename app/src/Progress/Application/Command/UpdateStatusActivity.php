@@ -6,7 +6,12 @@ namespace Progress\Application\Command;
 
 final class UpdateStatusActivity
 {
-    public function __construct()
+    public function __construct(private int $activityIdentifier)
     {
+    }
+
+    public function getActivityIdentifier(): int
+    {
+        return $this->activityIdentifier;
     }
 }
