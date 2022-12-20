@@ -16,7 +16,7 @@ class FinishDayCommand extends Command
     public function __construct(private Transport $transport)
     {
         parent::__construct('app:finish:day');
-        $this->setDescription('Command which is turned on every ex. 11:00PM');
+        $this->setDescription('Command which is turned on every 11:50PM');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int

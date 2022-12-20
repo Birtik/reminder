@@ -16,3 +16,6 @@ services:
     arguments: ['@doctrine.orm.progress_entity_manager']
 
   Progress\Application\Handler\UpdateStatusActivityHandler: ~
+
+  Progress\Application\Query\GetAllDaysQuery:
+    class: Progress\Infrastructure\Dbal\Query\DbalGetAllDaysQuery

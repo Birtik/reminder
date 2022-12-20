@@ -30,19 +30,6 @@ final class Metadata implements \JsonSerializable
     }
 
     /**
-     * @return int
-     */
-    public function getRetryCount(): int
-    {
-        return $this->retryCount;
-    }
-
-    public function incrementRetryCount(): void
-    {
-        $this->retryCount++;
-    }
-
-    /**
      * @return array
      */
     public function toArray(): array

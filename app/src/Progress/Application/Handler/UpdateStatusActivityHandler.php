@@ -17,7 +17,6 @@ final class UpdateStatusActivityHandler implements MessageHandlerInterface
     public function __invoke(UpdateStatusActivity $command)
     {
         $day = $this->dayRepository->findOneByActivity($command->getActivityIdentifier());
-
         $this->dayRepository->update($day);
     }
 }

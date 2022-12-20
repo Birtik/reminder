@@ -50,8 +50,6 @@ final class UpdateDayCompletion implements Consumer
             [$dateTime->format('Y-m-d')],
         );
 
-        dump($results);
-
         foreach ($results as $result) {
             if(false === $result) {
                 return false;

@@ -9,16 +9,13 @@ use SharedKernel\Application\Aws\Queue\Process\Exception\DelayMessageException;
 final class Process
 {
     private Transport $transport;
-    private Dispatcher $dispatcher;
     private ConsumerResolver $consumerResolver;
 
     public function __construct(
         Transport $transport,
-        Dispatcher $dispatcher,
         ConsumerResolver $consumerResolver
     ) {
         $this->transport = $transport;
-        $this->dispatcher = $dispatcher;
         $this->consumerResolver = $consumerResolver;
     }
 

@@ -2,6 +2,8 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/app/src/SharedKernel" isTestSource="false" packagePrefix="SharedKernel\" />
+      <sourceFolder url="file://$MODULE_DIR$/app/src/Progress" isTestSource="false" packagePrefix="Progress\" />
       <excludeFolder url="file://$MODULE_DIR$/application/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/application/vendor/exsyst/swagger" />
       <excludeFolder url="file://$MODULE_DIR$/application/vendor/nikic/php-parser" />

@@ -19,6 +19,6 @@ class FileController extends AbstractController
         /** @var Stream $fileBody */
         $fileBody = ($filesStorage->get('testX2.txt'))['Body'];
 
-        return new JsonResponse(['fileContent' => $fileBody->getContents()]);
+        return new JsonResponse(['fileContent' => (string) $fileBody]);
     }
 }

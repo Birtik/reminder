@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Progress\Infrastructure\Doctrine\Repository;
 
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Exception;
@@ -19,6 +18,11 @@ final class DoctrineDayRepository implements DayRepository
     public function __construct(private EntityManagerInterface $entityManager)
     {
         $this->repository = $entityManager->getRepository(Day::class);
+    }
+
+    public function getAllDays(): array
+    {
+        return $this->repository->findAll();
     }
 
     /**
@@ -44,6 +48,5 @@ final class DoctrineDayRepository implements DayRepository
     public function update(Day $day): void
     {
         $day->markAsComplete();
-        $this->entityManager->flush();
     }
 }
