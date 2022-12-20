@@ -13,11 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FileController extends AbstractController
 {
-    #[Route('/files', name: 'GET_S3_FILE', methods: ['GET'])]
-    public function getS3Files(FilesStorage $filesStorage): Response
+    #[Route('/files/{textFileName}', name: 'GET_S3_FILE', methods: ['GET'])]
+    public function getS3Files(FilesStorage $filesStorage, string $textFileName): Response
     {
         /** @var Stream $fileBody */
-        $fileBody = ($filesStorage->get('testX2.txt'))['Body'];
+        $fileBody = ($filesStorage->get("$textFileName.txt"))['Body'];
 
         return new JsonResponse(['fileContent' => (string) $fileBody]);
     }
