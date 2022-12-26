@@ -28,9 +28,27 @@ class Day implements JsonSerializable
     #[ORM\Column(name: 'complete', type: Types::BOOLEAN)]
     private bool $complete;
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function isComplete(): bool
+    {
+        return $this->complete;
+    }
+
     public function markAsComplete(): void
     {
         $this->complete = true;
+    }
+
+    public function __construct(int $id, DateTime $date, Activity $activity, bool $complete)
+    {
+        $this->id = $id;
+        $this->date = $date;
+        $this->activity = $activity;
+        $this->complete = $complete;
     }
 
     public function jsonSerialize(): array

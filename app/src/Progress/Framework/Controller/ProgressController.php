@@ -20,13 +20,13 @@ class ProgressController extends AbstractController
     ) {
     }
 
-    #[Route('/progress', name: 'GET_ALL_PROGRESS', methods: ['GET'])]
+    #[Route('/api/progress', name: 'GET_ALL_PROGRESS', methods: ['GET'])]
     public function getProgress(): Response
     {
         return new JsonResponse(($this->allDaysQuery)());
     }
 
-    #[Route('/progress/activity/{activity}', name: 'UPDATE_STATUS_FOR_ACTIVITY', methods: ['PUT'])]
+    #[Route('/api/progress/activity/{activity}', name: 'UPDATE_STATUS_FOR_ACTIVITY', methods: ['PUT'])]
     public function updateStatusForActivity(int $activity): Response
     {
         $this->progressCommandBus->dispatch(new UpdateStatusActivity($activity));

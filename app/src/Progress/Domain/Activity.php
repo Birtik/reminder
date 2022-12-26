@@ -17,6 +17,12 @@ class Activity implements JsonSerializable
     #[ORM\Column(name: 'name', type: Types::STRING, length: 50)]
     private string $name;
 
+    public function __construct(int $id, string $name)
+    {
+        $this->id = $id;
+        $this->name = $name;
+    }
+
     public function jsonSerialize(): mixed
     {
         return [

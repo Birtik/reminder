@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FileController extends AbstractController
 {
-    #[Route('/files/{textFileName}', name: 'GET_S3_FILE', methods: ['GET'])]
+    #[Route('/api/files/{textFileName}', name: 'GET_S3_FILE', methods: ['GET'])]
     public function getS3Files(FilesStorage $filesStorage, string $textFileName): Response
     {
         /** @var Stream $fileBody */
