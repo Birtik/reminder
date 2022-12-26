@@ -32,5 +32,5 @@ docker-compose exec app php bin/console d:s:u --force
 
 ## Data
 ```shell script
-docker-compose exec app php bin/console d:m:e --up
+docker-compose exec app php bin/console d:m:m
 ```
