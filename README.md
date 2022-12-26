@@ -10,7 +10,9 @@ The main functionality of aws-bundle is used in command logic.
 - Command will send a message into SQS
 - Prepared consumer (for concrete action of this message) will determine a status of day based on all activities and update this value into DynamoDb. 
 
-Not related to the rest but application is also configured to receive content of provided textFile. #S3
+Another features:
+- Application configured to receive content of provided textFile. #S3
+- Application by app:compare command try to provide useful of index. 
 
 ## First Steps
 Setup and start application in dev mode
