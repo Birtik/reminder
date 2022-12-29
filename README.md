@@ -12,7 +12,7 @@ The main functionality of aws-bundle is used in command logic.
 
 Another features:
 - Application configured to receive content of provided textFile. #S3
-- Application by app:compare command try to provide useful of index. 
+- Application by app:compare command try to provide useful of sql indexes. 
 
 ## First Steps
 Setup and start application in dev mode
@@ -27,10 +27,21 @@ docker-compose up
 
 ## Schema
 ```shell script
-docker-compose exec app php bin/console d:s:u --force
+docker-compose exec app php bin/console d:s:u --em=progress --force
 ```
 
 ## Data
 ```shell script
 docker-compose exec app php bin/console d:m:m
+```
+
+## Commands for testing
+```shell script
+queue:consume  --> ('To consume messages in background')
+```
+```shell script
+app:finish:day --> ('Simulation of automation command running every day on 11:50PM')
+```
+```shell script
+app:compare --> ('Simulation to provide useful of sql indexes')
 ```
